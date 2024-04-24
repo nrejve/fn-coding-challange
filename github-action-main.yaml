@@ -54,10 +54,14 @@ jobs:
     # For demonstration purposes, in this case, we're using Git and Node.js
       run: |
 
-        COMMIT_HASH=$(git rev-parse HEAD) # The latest commit hash.
-        COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) # The commit message
-        AUTHOR=$(git log -1 --pretty=format:%an) # The author of the commit or pull request.
-        LABELS=$(git log -1 --pretty=format:%b | grep -oE '\[.*?\]' | tr -d '[]' | tr '\n' ',' | sed 's/,$//') # Any labels associated with the commit or pull request.
+        COMMIT_HASH=$(git rev-parse HEAD) 
+        # The latest commit hash.
+        COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) 
+        # The commit message
+        AUTHOR=$(git log -1 --pretty=format:%an) 
+        # The author of the commit or pull request.
+        LABELS=$(git log -1 --pretty=format:%b | grep -oE '\[.*?\]' | tr -d '[]' | tr '\n' ',' | sed 's/,$//') 
+        # Any labels associated with the commit or pull request.
 
   
         CHANGELOG_ENTRY="Commit: $COMMIT_HASH\\n" 
