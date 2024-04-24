@@ -1,2 +1,2 @@
-# fn-coding-challange
-Field Coding Challange for MD NAZMUL AHASAN
+# fn-coding-challenge
+Field Coding challenge for MD NAZMUL AHASAN
