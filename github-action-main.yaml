@@ -55,15 +55,10 @@ jobs:
       run: |
 
         COMMIT_HASH=$(git rev-parse HEAD) 
-        # The latest commit hash.
         COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) 
-        # The commit message
         AUTHOR=$(git log -1 --pretty=format:%an) 
-        # The author of the commit or pull request.
         LABELS=$(git log -1 --pretty=format:%b | grep -oE '\[.*?\]' | tr -d '[]' | tr '\n' ',' | sed 's/,$//') 
-        # Any labels associated with the commit or pull request.
-
-  
+        
         CHANGELOG_ENTRY="Commit: $COMMIT_HASH\\n" 
         CHANGELOG_ENTRY+="Message: $COMMIT_MESSAGE\\n" 
         CHANGELOG_ENTRY+="Author: $AUTHOR\\n" 
@@ -72,6 +67,12 @@ jobs:
 
         echo "$CHANGELOG_ENTRY" >> CHANGELOG.md 
         # Append the entry to CHANGELOG.md
+
+---
+#COMMIT_HASH: The latest commit hash.
+#COMMIT_MESSAGE: The commit message.
+#AUTHOR: The author of the commit or pull request.
+#LABELS: Any labels associated with the commit or pull request.
 
     - name: Deploy to the staging environment
       if: success()
