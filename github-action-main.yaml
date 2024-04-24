@@ -63,21 +63,19 @@ jobs:
         CHANGELOG_ENTRY+="Message: $COMMIT_MESSAGE\\n" 
         CHANGELOG_ENTRY+="Author: $AUTHOR\\n" 
         CHANGELOG_ENTRY+="Labels: $LABELS" 
-        # Format the changelog entry
 
         echo "$CHANGELOG_ENTRY" >> CHANGELOG.md 
-        # Append the entry to CHANGELOG.md
-
 ---
-#COMMIT_HASH: The latest commit hash.
-#COMMIT_MESSAGE: The commit message.
-#AUTHOR: The author of the commit or pull request.
-#LABELS: Any labels associated with the commit or pull request.
+# 57 -> COMMIT_HASH: The latest commit hash.
+# 58 -> COMMIT_MESSAGE: The commit message.
+# 59 -> AUTHOR: The author of the commit or pull request.
+# 60 -> LABELS: Any labels associated with the commit or pull request.
+# 62-65 -> Format the changelog entry
+# 67 -> Append the entry to CHANGELOG.md
 
     - name: Deploy to the staging environment
       if: success()
       run: |
-        # Mock deployment process for staging environment
         echo "Deploying to staging..."
 
 ## The final step deploys to a staging environment (mock deployment) if all previous steps were successful 
