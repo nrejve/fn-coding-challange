@@ -1,0 +1,80 @@
+
+################################################################################################################################################
+### Problem Statement 
+################################################################################################################################################
+#  Github Actions Code Challenge
+#  Challenge:
+#  Implement a GitHub Actions workflow that triggers on every push to the main branch or whenever a pull request is merged into the main
+#  branch of a repository. This workflow should perform the following steps:
+#  1. Check out the repository code.
+#  2. Install project dependencies.
+#  3. Run unit tests.
+#  4. Write a script (in any preferred programming language) to extract relevant information from the commit or merged pull request and
+#  format it into a changelog entry.
+#  5. The changelog entry should include the commit number or pull request number, commit message or pull request title, author, and any
+#  labels associated with the commit or pull request.
+#  6. Append the generated changelog entry to the
+#  CHANGELOG.md - Generate and announce updates to your users. file in your
+#  repository.
+#  7. Ensure that the workflow runs successfully and updates the changelog file upon each commit or merged pull request.
+#  8. If all unit tests pass and changelog entry appended, mock deploy the application to a staging environment.
+#  You can assume that the project uses a package manager like npm for managing dependencies and has a script for running unit tests.
+#  Your task is to create a workflow file in the repository that defines the GitHub Actions workflow to fulfil the requirements mentioned above.
+#
+################################################################################################################################################
+### Solution 
+################################################################################################################################################
+
+name: Changelog Workflow # The name field specifies the name of the workflow. In this case, it’s “Changelog Workflow.”
+on: 
+  push: 
+    branches:
+    - main # push: The workflow runs when there’s a push to the specified branches (in this case, only the main branch).
+  pull_request: 
+    types: [closed] # pull_request: The workflow runs when a pull request is closed (merged or otherwise).
+
+
+jobs: 
+  generate-changelog: # In this example, we have a single job id named “generate-changelog.”
+    name: Generate Changelog # Name of the job
+    runs-on: ubuntu-latest # runs-on specifies the type of runner environment (in this case, Ubuntu).
+
+    steps: 
+    - name: Checkout code
+      uses: actions/checkout@v2 # The first step checks out the repository code using the actions/checkout action.
+
+    - name: Install dependencies
+      run: npm install # installs project dependencies using the npm install command.
+
+    - name: Run unit tests
+      run: npm test # runs unit tests using the npm test command.
+
+    - name: Extract and append changelog 
+    # Extract relevant information from the commit or merged pull request
+    # For demonstration purposes, in this case, we're using Git and Node.js
+      run: |
+
+        COMMIT_HASH=$(git rev-parse HEAD) # The latest commit hash.
+        COMMIT_MESSAGE=$(git log -1 --pretty=format:%s) # The commit message
+        AUTHOR=$(git log -1 --pretty=format:%an) # The author of the commit or pull request.
+        LABELS=$(git log -1 --pretty=format:%b | grep -oE '\[.*?\]' | tr -d '[]' | tr '\n' ',' | sed 's/,$//') # Any labels associated with the commit or pull request.
+
+  
+        CHANGELOG_ENTRY="Commit: $COMMIT_HASH\\n" 
+        CHANGELOG_ENTRY+="Message: $COMMIT_MESSAGE\\n" 
+        CHANGELOG_ENTRY+="Author: $AUTHOR\\n" 
+        CHANGELOG_ENTRY+="Labels: $LABELS" 
+        # Format the changelog entry
+
+        echo "$CHANGELOG_ENTRY" >> CHANGELOG.md 
+        # Append the entry to CHANGELOG.md
+
+    - name: Deploy to the staging environment
+      if: success()
+      run: |
+        # Mock deployment process for staging environment
+        echo "Deploying to staging..."
+
+## The final step deploys to a staging environment (mock deployment) if all previous steps were successful 
+## (i.e., unit tests passed and changelog entry was appended).
+
