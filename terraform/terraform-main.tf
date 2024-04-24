@@ -2,28 +2,28 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_s3_bucket" "fn_bucket" {
+resource "aws_s3_bucket" "example_bucket" {
   bucket = "fn-s3-bucket"
   tags = {
     Name = "FnS3Bucket"
   }
 }
 
-resource "aws_s3_bucket_acl" "fn_bucket_acl" {
-  bucket = aws_s3_bucket.fn_bucket.id
+resource "aws_s3_bucket_acl" "example_bucket_acl" {
+  bucket = aws_s3_bucket.example_bucket.id
   acl    = "private"
 }
 
-resource "aws_s3_bucket_versioning" "fn_bucket_vc" {
-  bucket = aws_s3_bucket.fn_bucket.id
+resource "aws_s3_bucket_versioning" "example_bucket_vc" {
+  bucket = aws_s3_bucket.example_bucket.id
 
   versioning_configuration {
     status = "Enabled"
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "fn_bucket_lc" {
-  bucket = aws_s3_bucket.fn_bucket.id
+resource "aws_s3_bucket_lifecycle_configuration" "example_bucket_lc" {
+  bucket = aws_s3_bucket.example_bucket.id
 
   rule {
     id = "expire"
@@ -35,9 +35,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "fn_bucket_lc" {
   }
 }
 
-resource "aws_cloudfront_distribution" "fn_distribution" {
+resource "aws_cloudfront_distribution" "example_distribution" {
   origin {
-    domain_name = aws_s3_bucket.fn_bucket.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.example_bucket.bucket_regional_domain_name
     origin_id   = "fn-s3-bucket"
 
     s3_origin_config {
