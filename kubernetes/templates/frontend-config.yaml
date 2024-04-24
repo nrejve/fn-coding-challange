@@ -1,0 +1,11 @@
+apiVersion: v1 # Specifies the Kubernetes API version for the ConfigMap object. In this case, we’re using the “v1” version.
+kind: ConfigMap # Indicates that this YAML configuration defines a ConfigMap resource.
+metadata: # Contains metadata information for the ConfigMap.
+  name: frontend-config # assigns the name “frontend-config” to this ConfigMap.
+data: # Defines the actual data (key-value pairs) stored in the ConfigMap.
+  frontend-config.yaml: |
+    # Dummy configurations
+
+# frontend-config.yaml: specifies the key for the data.
+# The value after the colon (|) is a block scalar style, which allows multiline strings without escaping.
+# The content under the key represents your frontend configuration settings.

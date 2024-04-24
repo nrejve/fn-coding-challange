@@ -1,0 +1,9 @@
+frontend:
+  image: frontend:latest # name of the given frontend image 
+  port: 80 # given frontend port number
+
+backend:
+  image: backend:latest # name of the given backend image 
+  port: 8080 # given backend port number
+  env:
+    db_url: mysql://mysql:3306/database # given db url

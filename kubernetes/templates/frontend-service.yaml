@@ -1,0 +1,12 @@
+apiVersion: v1 # Specifies the Kubernetes API version for the Service object. In this case, we’re using the “v1” version, which is the core API version.
+kind: Service # Indicates that this YAML configuration defines a Service resource.
+metadata:
+  name: frontend-service # assigns the name frontend-service” to this Service.
+spec:
+  selector:
+    app: frontend # ensures that this Service routes traffic to Pods with the label “app: frontend.
+  ports:
+  - protocol: TCP # specifies the protocol (TCP) for the port.
+    port: 80 # defines the port number exposed by the Service.
+    targetPort: {{ .Values.frontend.port }} # indicates the port (taking from values.yaml) on the backend Pods to which traffic should be forwarded.
+

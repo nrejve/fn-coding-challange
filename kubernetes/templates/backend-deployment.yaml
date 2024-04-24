@@ -1,0 +1,23 @@
+apiVersion: apps/v1 # Kubernetes API version for the Deployment object
+kind: Deployment  # YAML configuration defines a Deployment object
+metadata: 
+  name: backend-deployment # assigns the name “backend-deployment” to this Deployment
+spec: 
+  replicas: 1 # specifies that we want only one replica (pod) of the backend service.
+  selector: 
+    matchLabels:
+      app: backend # ensures that the Deployment selects pods with the label “app: backend”
+  template: 
+    metadata: 
+      labels:
+        app: backend  # specifies the label “app: backend” for the pods created by this Deployment.
+    spec: 
+      containers: 
+      - name: backend # assigns the name “backend” to the container.
+        image: {{ .Values.backend.image }} # taking image name from the values.yaml file
+        ports:
+        - containerPort: {{ .Values.backend.port }} # defines the container port to expose (taking value from the values.yaml file).
+        env: 
+        - name: DB_URL 
+          value: {{ .Values.backend.env.db_url }} # assigns the value for the “DB_URL” variable.
+

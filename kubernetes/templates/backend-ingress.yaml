@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1 # Specifies the Kubernetes API version for the Ingress object. In this case, we’re using the “networking.k8s.io/v1” version.
+kind: Ingress # Indicates that this YAML configuration defines an Ingress resource.
+metadata: 
+  name: backend-ingress #  assigns the name “backend-ingress” to this Ingress.
+spec: 
+  rules: 
+  - host: backend.example.com # specifies the hostname (domain) for which this Ingress will handle traffic.
+    http:
+      paths: 
+      - path: / # specifies that requests to the root path (“/”) should be routed to the backend service
+        pathType: Prefix # indicates that the path matching should be based on a prefix (e.g., “/api” matches “/api/*”)
+        backend: 
+          service: 
+            name: backend-service # refers to the Kubernetes Service named “backend-service”.
+            port:
+              number: 8080 # specifies the port number (8080) of the backend service.

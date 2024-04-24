@@ -1,0 +1,27 @@
+apiVersion: apps/v1 # Specifies the Kubernetes API version for the Deployment object. In this case, we’re using the “apps/v1” version.
+kind: Deployment # Indicates that this YAML configuration defines a Deployment object.
+metadata: # Contains metadata information for the Deployment.
+  name: frontend-deployment # assigns the name “frontend-deployment” to this Deployment.
+spec:
+  replicas: 1 # specifies that we want only one replica (pod) of the backend service.
+  selector:
+    matchLabels:
+      app: frontend # ensures that the Deployment selects pods with the label “app: frontend"
+  template:
+    metadata:
+      labels:
+        app: frontend # specifies the label “app: frontrend" for the pods created by this Deployment.
+    spec:
+      containers:
+      - name: frontend # assigns the name "frontend" to the container.
+        image: {{ .Values.frontend.image }}  # taking image name from the values.yaml file
+        ports:
+        - containerPort: {{ .Values.frontend.port }} # defines the container port to expose (taking value from the values.yaml file).
+        volumeMounts:
+        - name: config-volume # name of the volume mount for the container
+          mountPath: /etc/config # volume mount path
+      volumes:
+      - name: config-volume # name of the volume to be mounted
+        configMap:
+          name: frontend-config # name of the configmap
+
