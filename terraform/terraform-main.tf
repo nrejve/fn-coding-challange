@@ -2,34 +2,34 @@ provider "aws" {
   region = "us-east-1"
 }
 
-resource "aws_s3_bucket" "example_bucket" {
-  bucket = "fn-s3-bucket"
+resource "aws_s3_bucket" "fn-s3-bucket" {
+  bucket = "fn-s3-bucket" //creates an S3 bucket with the name fn-s3-bucket
   tags = {
-    Name = "FnS3Bucket"
+    Name = "FnS3Bucket" // assigns a tag with key Name and value FnS3Bucket
   }
 }
 
-resource "aws_s3_bucket_acl" "example_bucket_acl" {
-  bucket = aws_s3_bucket.example_bucket.id
-  acl    = "private"
+resource "aws_s3_bucket_acl" "fn-s3-bucket-acl" { //  configures the access control list (ACL) for the created S3 bucket
+  bucket = aws_s3_bucket.fn-s3-bucket.id
+  acl    = "private" // sets the ACL to private
 }
 
-resource "aws_s3_bucket_versioning" "example_bucket_vc" {
-  bucket = aws_s3_bucket.example_bucket.id
+resource "aws_s3_bucket_versioning" "fn-s3-bucket-vc" {  // configures the version control for the created S3 bucket
+  bucket = aws_s3_bucket.fn-s3-bucket.id
 
   versioning_configuration {
-    status = "Enabled"
+    status = "Enabled" // enables versioning for the S3 bucket
   }
 }
 
-resource "aws_s3_bucket_lifecycle_configuration" "example_bucket_lc" {
-  bucket = aws_s3_bucket.example_bucket.id
+resource "aws_s3_bucket_lifecycle_configuration" "fn-s3-bucket-lc" { // configures the bucket object lifecycle for the created S3 bucket
+  bucket = aws_s3_bucket.fn-s3-bucket.id
 
   rule {
-    id = "expire"
+    id = "expire" // name of the versioning rule
 
     expiration {
-      days = 365
+      days = 365 // expires objects after 1 year
     }
     status = "Enabled"
   }
@@ -37,11 +37,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "example_bucket_lc" {
 
 resource "aws_cloudfront_distribution" "example_distribution" {
   origin {
-    domain_name = aws_s3_bucket.example_bucket.bucket_regional_domain_name
+    domain_name = aws_s3_bucket.fn-s3-bucket.bucket_regional_domain_name //  sets up CloudFront to distribute content from the S3 bucket created earlier
     origin_id   = "fn-s3-bucket"
 
     s3_origin_config {
-      origin_access_identity = ""
+      origin_access_identity = "" // CloudFront accesses the S3 bucket using the default permissions
     }
   }
 
@@ -60,7 +60,7 @@ resource "aws_cloudfront_distribution" "example_distribution" {
       }
     }
 
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = "redirect-to-https" // redirecting to https
     min_ttl                = 0
     default_ttl            = 3600
     max_ttl                = 86400
